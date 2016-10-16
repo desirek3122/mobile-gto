@@ -7,8 +7,6 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Exercise */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Exercises', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="exercise-view">
 

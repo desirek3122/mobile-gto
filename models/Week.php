@@ -42,15 +42,16 @@ class Week extends \yii\db\ActiveRecord
 
     public function upload()
     {
-        if ($this->validate()) {
+
+        if (!empty($_FILES['Week']['name']['audioFile'])){
             $save=new UploadedFile();
-            $filename=implode('/', str_split($this->id));
-            $save->saveAs('uploads/' . $filename . '.' . $this->audioFile->extension);
+            $filename=$this->id;
+            //mkdir('../uploads/audio1/', 0777, 1);
+            $save->saveAs('../uploads/audio1/' . $filename  . '.mp3');
             return true;
 
-        } else {
-            return false;
         }
+
     }
 
     /**

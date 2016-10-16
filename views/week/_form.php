@@ -25,7 +25,6 @@ use kartik\file\FileInput;
     ]) ?>
     <?= $form->field($model, 'audioFile')->fileInput() ?>
 
-
 <table class="table table-striped">
     <?php
 
@@ -36,9 +35,11 @@ use kartik\file\FileInput;
     print '</td>';
     foreach ($lessons as $lesson){
         print '<td><b>';
-        print $lesson->header;
-        print '</b>';
-        print '</td>';
+        if ($lesson->sub===$model->id) {
+            print $lesson->header;
+            print '</b>';
+            print '</td>';
+        }
     }
     print '</tr>';
 
@@ -46,11 +47,13 @@ use kartik\file\FileInput;
     $data= new \app\models\LessonData;
     foreach ($exercises as $exersice){
         print '<tr><b><td>';
-        print $exersice->header;
-        print '</td></b>';
-        print '<td>';
-        print '</td>';
-        print '</tr>';
+        if ($exersice->sub===$model->id) {
+            print $exersice->header;
+            print '</td></b>';
+            print '<td>';
+            print '</td>';
+            print '</tr>';
+        }
     }
     $form->field($data, 'data');
 

@@ -8,7 +8,6 @@ use yii\widgets\ListView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Недели';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="week-index">
 

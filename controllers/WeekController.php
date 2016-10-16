@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Week;
 use app\models\WeekSearch;
+use yii\filters\PageCache;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -67,6 +68,7 @@ class WeekController extends Controller
 
 
         $model = new Week();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
@@ -85,6 +87,9 @@ class WeekController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if ($model->upload()){
+            exit(print 1);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

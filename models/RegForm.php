@@ -17,8 +17,8 @@ class RegForm extends Model
     public function rules()
     {
         return [
-            [['username', 'email', 'password'],'filter', 'filter' => 'trim'],
-            [['email', 'password'],'required'],
+            [['email', 'password', 'name', 'surname', 'patronymic', 'phone', 'sub', 'status', 'admin', 'sub'],'filter', 'filter' => 'trim'],
+            [['email', 'password', 'name', 'surname', 'patronymic', 'phone', 'sub', 'status', 'admin', 'sub'],'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['password', 'string', 'min' => 6, 'max' => 255],
             ['username', 'unique',
@@ -39,13 +39,8 @@ class RegForm extends Model
     {
         return [
             'username' => 'Имя пользователя',
-            'email' =>g 'Эл. почта',
-            'password' => 'Пароль',
-            'sub' => 'Группа',
-            'name' => 'Имя',
-            'surname' => 'Фамилия',
-            'patronymic' => 'Отчество',
-            'phone' => 'Телефон',
+            'email' => 'Эл. почта',
+            'password' => 'Пароль'
         ];
     }
     public function reg()
@@ -53,12 +48,13 @@ class RegForm extends Model
         $user = new User();
         $user->email = $this->email;
         $user->status = $this->status;
+        $user->name=$this->name;
+        $user->surname=$this->surname;
+        $user->patronymic=$this->patronymic;
+        $user->phone=$this->phone;
+        $user->sub=$this->sub;
+        $user->admin=$this->admin;
         $user->setPassword($this->password);
-        $user->name= $this->name;
-        $user->surname= $this->surname;
-        $user->patronymic= $this->patronymic;
-        $user->phone= $this->phone;
-        $user->sub= $this->sub;
         $user->generateAuthKey();
         return $user->save() ? $user : null;
     }

@@ -26,7 +26,7 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)):
                 $field = ($this->scenario === 'loginWithEmail') ? 'email' : 'username';
-                $this->addError($attribute, 'Неправильный '.$field.' или пароль.');
+                $this->addError($attribute, 'Неправильный email или пароль.');
             endif;
         endif;
     }
@@ -52,15 +52,13 @@ class LoginForm extends Model
     }
     public function login()
     {
-        if ($this->validate()):
+        if ($this->validate()) {
             $this->status = ($user = $this->getUser()) ? $user->status : User::STATUS_NOT_ACTIVE;
-            if ($this->status === User::STATUS_ACTIVE):
-                return Yii::$app->user->login($user, $this->rememberMe ? 3600*24*30 : 0);
-            else:
+            if ($this->status === User::STATUS_ACTIVE) {
+                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            } else {
                 return false;
-            endif;
-        else:
-            return false;
-        endif;
+            }
+        }
     }
 }

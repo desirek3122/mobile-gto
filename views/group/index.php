@@ -7,22 +7,17 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\GroupSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Groups';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Группы';
 ?>
 <div class="group-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Group', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить группу', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
-        },
+        'itemView' => '_list_all'
     ]) ?>
 </div>

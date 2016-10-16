@@ -39,17 +39,10 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()):
             if ($user = $model->reg()):
                 if ($user->status === User::STATUS_ACTIVE):
-                    if (Yii::$app->getUser()->login($user)):
+                   // if (Yii::$app->getUser()->login($user))
                         return $this->goHome();
-                    endif;
                 else:
-                    if($model->sendActivationEmail($user)):
-                        Yii::$app->session->setFlash('success', 'Письмо с активацией отправлено на емайл <strong>'.Html::encode($user->email).'</strong> (проверьте папку спам).');
-                    else:
-                        Yii::$app->session->setFlash('error', 'Ошибка. Письмо не отправлено.');
-                        Yii::error('Ошибка отправки письма.');
-                    endif;
-                    return $this->refresh();
+                    return $this->goHome();
                 endif;
             else:
                 Yii::$app->session->setFlash('error', 'Возникла ошибка при регистрации.');
@@ -80,11 +73,15 @@ class UserController extends Controller
         endif;
         return $this->redirect(Url::to(['/main/login']));
     }
+
+
     public function actionLogout()
     {
         Yii::$app->user->logout();
         return $this->redirect(['/main/index']);
     }
+
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest):

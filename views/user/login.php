@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 ?>
     <div class="main-login">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['options'=>['style'=>['width'=>'500px']]]); ?>
 
         <?php if($model->scenario === 'loginWithEmail'): ?>
             <?= $form->field($model, 'email') ?>
