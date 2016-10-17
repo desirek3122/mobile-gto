@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b370d5db-9ee4-453f-9919-cfd94327f9c7" name="sport" url="http://sport.sallfy.ru">
+        <fileTransfer host="sport.sallfy.ru" port="21" username="sallfy_sport">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
