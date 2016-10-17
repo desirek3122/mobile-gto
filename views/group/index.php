@@ -11,9 +11,10 @@ $this->title = 'Группы';
 ?>
 <div class="group-index">
 
-
+    <h1><?= Html::encode('Пользователи') ?></h1>
     <p>
         <?= Html::a('Добавить группу', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить пользователя', ['user/reg'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

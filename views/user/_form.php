@@ -23,8 +23,6 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'md5pass')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->textInput() ?>

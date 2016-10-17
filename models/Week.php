@@ -36,11 +36,11 @@ class Week extends \yii\db\ActiveRecord
             [['sub', 'audio1', 'audio2'], 'integer'],
             [['datestart'], 'safe'],
             [['header'], 'string', 'max' => 255],
-            [['audioFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'mp3'],
+            //[['audioFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'mp3'],
         ];
     }
 
-    public function upload()
+     /*public function upload()
     {
 
         if (!empty($_FILES['Week']['name']['audioFile'])){

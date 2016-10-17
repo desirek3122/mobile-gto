@@ -20,7 +20,7 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'datestart')->widget(DatePicker::className(),[
         'language' => 'ru',
-        'dateFormat' => 'dd-MM-yyyy',
+        'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
     <div class="form-group">

@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'phone')->textInput()  ?>
     <?= $form->field($model, 'status')->textInput()  ?>
     <?= $form->field($model, 'admin')->textInput() ?>
-    <?= $form->field($model, 'email')->textInput()  ?>
+    <?= $form->field($model, 'email')->input('email')  ?>
     <?= $form->field($model, 'password')->passwordInput() ?>
 
     <div class="form-group">

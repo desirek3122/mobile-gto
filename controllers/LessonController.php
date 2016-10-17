@@ -8,6 +8,8 @@ use app\models\LessonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\User;
 
 /**
  * LessonController implements the CRUD actions for Lesson model.
@@ -20,6 +22,44 @@ class LessonController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'update', 'create', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -66,7 +106,7 @@ class LessonController extends Controller
         $model = new Lesson();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['session/index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,7 +125,7 @@ class LessonController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['session/index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -103,7 +143,7 @@ class LessonController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['session/index']);
     }
 
     /**
@@ -120,5 +160,20 @@ class LessonController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionActivate($id)
+    {
+
+        $this->findModel($id)->activate($id);
+
+        return $this->redirect(['session/index']);
+    }
+
+    public function actionDeactivate($id)
+    {
+        $this->findModel($id)->deactivate($id);
+
+        return $this->redirect(['session/index']);
     }
 }

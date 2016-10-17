@@ -10,33 +10,62 @@ use yii\helpers\HtmlPurifier;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-    <div class="session-form">
-
-    <div class="exercise-item">
-        <h4><?= Html::encode($model->header) ?>
-            <?= $users=\app\models\User::find()->where('sub', $model->id)->all()?>
+<div class="session-form">
+    <table class='table table-striped' >
+        <div class="news-item">
             <?php
+            $users=\app\models\User::find()->where(['sub' => $model->id])->all();
+            print '<tr>';
+            print '<td>';
+            print '<b>';
+            print Html::encode($model->header);
+            print '</b>';
+            print '</td>';
+            print '<td>';
+            print Html::a('Редактировать', ['group/update', 'id' => $model->id], ['class' => 'btn btn-default btn-sm']);
+            print '</tr>';
             foreach ($users as $user){
-                if ($user->sub===$model->id){
-                    print $user->name;
-                    print ' ';
-                    print $user->email;
-                    print '<br>';
-
+                if ($user->admin == 1){
+                    continue;
+                }else{
+                    print '<td>';
+                    print Html::encode($user->surname);
+                    print '</td>';
+                    print '<td>';
+                    print Html::encode($user->name);
+                    print '</td>';
+                    print '<td>';
+                    print Html::encode($user->patronymic);
+                    print '</td>';
+                    print '<td>';
+                    print Html::a('Редактировать', ['user/update', 'id' => $user->id], ['class' => 'btn btn-default btn-sm']);
+                    print '</td>';
+                    print '<td>';
+                    print Html::a('Отправить пароль', ['user/sendpassword', 'id' => $user->id], ['class' => 'btn btn-danger btn-sm']);
+                    print '</td>';
+                    print '<td>';
+                    print '<b>';
+                    if ($user->status==2){
+                        print '<div align="center" style="background: #E56233; color: white; width: 100px">';
+                        print Html::a('Активен', ['#']);
+                        print '</div>';
+                    }else{
+                        print '<div align="center" style="background: #43D14D; color: white; width: 100px">';
+                        print Html::a('Активировать', ['user/activate', 'id' => $user->id]);
+                        print '</div>';
+                    }
+                    print '</b>';
+                    print '</td>';
+                    print '</tr>';
                 }
             }
+
             ?>
-            <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
-            <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Вы действительно хотите удалить это упражнение?',
-                    'method' => 'post',
-                ],
-            ]) ?></h4>
-        <br>
-        <br>
+
+        </div>
+    </table>
+
+</div>
+
+
     </div>
-
-
-    </div><?php

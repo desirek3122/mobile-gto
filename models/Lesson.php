@@ -49,4 +49,20 @@ class Lesson extends \yii\db\ActiveRecord
             'datestart' => 'Дата начала урока',
         ];
     }
+
+    public function activate($id){
+        $lessons= Lesson::find()->all();
+        foreach ($lessons as $les){
+            $les->active = 0;
+            $les->update();
+        }
+        $lesson=Lesson::findOne($id);
+        $lesson->active=1;
+        $lesson->update();
+    }
+    public function deactivate($id){
+        $lesson=Lesson::findOne($id);
+        $lesson->active=0;
+        $lesson->update();
+    }
 }

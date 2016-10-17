@@ -27,34 +27,74 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'SPORT',
+        'brandLabel' => 'mobile-gto',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Пользователи', 'url' => ['/user/index']],
-            ['label' => 'Сессии', 'url' => ['/session/index']],
-            ['label' => 'Недели', 'url' => ['/week/index']],
-            ['label' => 'Упражнения', 'url' => ['/exercise/index']],
-            ['label' => 'Уроки', 'url' => ['/lesson/index']],
-            Yii::$app->user->isGuest ? (
+    if (!Yii::$app->user->isGuest) {
+        if (\app\models\User::isUserAdmin(Yii::$app->user->identity->email)) {
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => [
+                    ['label' => 'Пользователи', 'url' => ['/group/index']],
+                    ['label' => 'Сессии', 'url' => ['/session/index']],
+                    Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/user/login']]
+                    ) : (
+                        '<li>'
+                        . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
+                        . Html::submitButton(
+                            'Logout (' . Yii::$app->user->identity->email . ')',
+                            ['class' => 'btn btn-link']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                    )
+                ],
+            ]);
+        } else {
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => [
+                    Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/user/login']]
+                    ) : (
+                        '<li>'
+                        . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
+                        . Html::submitButton(
+                            'Logout (' . Yii::$app->user->identity->email . ')',
+                            ['class' => 'btn btn-link']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                    )
+                ],
+            ]);
+
+        }
+    }else{
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/user/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->email . ')',
-                    ['class' => 'btn btn-link']
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->email . ')',
+                        ['class' => 'btn btn-link']
+                    )
+                    . Html::endForm()
+                    . '</li>'
                 )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
+            ],
+        ]);
+    }
+
+
     NavBar::end();
     ?>
 
@@ -66,13 +106,6 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>

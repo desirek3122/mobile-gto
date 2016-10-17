@@ -23,9 +23,10 @@ use yii\web\IdentityInterface;
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 2;
+    const STATUS_ADMIN = 1;
+    const STATUS_USER = 0;
     /**
      * @inheritdoc
      */
@@ -40,6 +41,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            ['admin', 'in', 'range' => [self::STATUS_USER, self::STATUS_ADMIN]],
             [['md5pass', 'email'], 'required'],
             [['sub', 'status', 'admin'], 'integer'],
             [['name', 'surname', 'patronymic', 'phone', 'md5pass', 'email', 'secret_key', 'auth_key'], 'string', 'max' => 255],
@@ -67,11 +69,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => 'Auth Key',
         ];
     }
+    public static function isUserAdmin($email)
+    {
+        if (static::findOne(['email' => $email, 'admin' => self::STATUS_ADMIN]))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /* Поиск */
     /** Находит пользователя по имени и возвращает объект найденного пользователя.
      *  Вызываеться из модели LoginForm.
      */
     /* Находит пользователя по емайл */
+
     public static function findByEmail($email)
     {
         return static::findOne([

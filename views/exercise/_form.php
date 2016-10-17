@@ -19,7 +19,6 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'img')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

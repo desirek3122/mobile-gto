@@ -14,6 +14,7 @@ use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\filters\AccessControl;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -25,6 +26,44 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'update', 'create', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,9 +79,9 @@ class UserController extends Controller
             if ($user = $model->reg()):
                 if ($user->status === User::STATUS_ACTIVE):
                    // if (Yii::$app->getUser()->login($user))
-                        return $this->goHome();
+                        return $this->redirect(Url::to(['/user/index']));
                 else:
-                    return $this->goHome();
+                    return $this->redirect(Url::to(['/user/index']));
                 endif;
             else:
                 Yii::$app->session->setFlash('error', 'Возникла ошибка при регистрации.');

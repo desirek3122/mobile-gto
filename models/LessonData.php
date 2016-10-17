@@ -28,7 +28,7 @@ class LessonData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lesson_id', 'exercise_id', 'data'], 'required'],
+            [['lesson_id', 'exercise_id'], 'required'],
             [['lesson_id', 'exercise_id'], 'integer'],
             [['data'], 'string', 'max' => 255],
         ];
@@ -43,7 +43,7 @@ class LessonData extends \yii\db\ActiveRecord
             'id' => 'id ',
             'lesson_id' => 'связь с таблицей уроков',
             'exercise_id' => 'связь с таблицей упражнений',
-            'data' => 'запись',
+            'data' => 'Количество упражнений',
         ];
     }
 }
